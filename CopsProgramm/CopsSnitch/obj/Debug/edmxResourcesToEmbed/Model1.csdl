@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CopsBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CarAccident">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProtocolId" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Protocol" Relationship="Self.FK_Protocol_CarAccident" FromRole="CarAccident" ToRole="Protocol" />
+  </EntityType>
+  <EntityType Name="Cops">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProtocolId" Type="Int32" Nullable="false" />
+    <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PostCops" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NumberPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Protocols" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Protocol" Relationship="Self.FK_Protocol_Cops" FromRole="Cops" ToRole="Protocol" />
+  </EntityType>
+  <EntityType Name="Owner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NumberPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateOfBirthday" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ResidentialAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DriversLicense" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Protocol" Relationship="Self.FK_Protocol_Owner" FromRole="Owner" ToRole="Protocol" />
+    <NavigationProperty Name="PTS" Relationship="Self.FK_PTS_Owner" FromRole="Owner" ToRole="PTS" />
+  </EntityType>
+  <EntityType Name="Protocol">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Guilty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IncidentAmount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateOfPayment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CopsId" Type="Int32" Nullable="false" />
+    <Property Name="OwnerId" Type="Int32" Nullable="false" />
+    <Property Name="CarAccidentId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CarAccident" Relationship="Self.FK_Protocol_CarAccident" FromRole="Protocol" ToRole="CarAccident" />
+    <NavigationProperty Name="Cops" Relationship="Self.FK_Protocol_Cops" FromRole="Protocol" ToRole="Cops" />
+    <NavigationProperty Name="Owner" Relationship="Self.FK_Protocol_Owner" FromRole="Protocol" ToRole="Owner" />
+  </EntityType>
+  <EntityType Name="PTS">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="OwnerId" Type="Int32" Nullable="false" />
+    <Property Name="RegistrNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NumberVIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CarBrand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CarModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="HP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TipTS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ColorCar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Weight" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="YearOfIssue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Owner" Relationship="Self.FK_PTS_Owner" FromRole="PTS" ToRole="Owner" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_Protocol_CarAccident">
+    <End Role="CarAccident" Type="Self.CarAccident" Multiplicity="1" />
+    <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarAccident">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Protocol">
+        <PropertyRef Name="CarAccidentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Protocol_Cops">
+    <End Role="Cops" Type="Self.Cops" Multiplicity="1" />
+    <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cops">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Protocol">
+        <PropertyRef Name="CopsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Protocol_Owner">
+    <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
+    <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Protocol">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PTS_Owner">
+    <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
+    <End Role="PTS" Type="Self.PTS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PTS">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CopsBaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CarAccident" EntityType="Self.CarAccident" />
+    <EntitySet Name="Cops" EntityType="Self.Cops" />
+    <EntitySet Name="Owner" EntityType="Self.Owner" />
+    <EntitySet Name="Protocol" EntityType="Self.Protocol" />
+    <EntitySet Name="PTS" EntityType="Self.PTS" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_Protocol_CarAccident" Association="Self.FK_Protocol_CarAccident">
+      <End Role="CarAccident" EntitySet="CarAccident" />
+      <End Role="Protocol" EntitySet="Protocol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Protocol_Cops" Association="Self.FK_Protocol_Cops">
+      <End Role="Cops" EntitySet="Cops" />
+      <End Role="Protocol" EntitySet="Protocol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Protocol_Owner" Association="Self.FK_Protocol_Owner">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="Protocol" EntitySet="Protocol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PTS_Owner" Association="Self.FK_PTS_Owner">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="PTS" EntitySet="PTS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

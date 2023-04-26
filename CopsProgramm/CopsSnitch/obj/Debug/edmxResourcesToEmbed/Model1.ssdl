@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище CopsBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CarAccident">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProtocolId" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Place" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Cops">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProtocolId" Type="int" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PostCops" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NumberPhone" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Protocols" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Owner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NumberPhone" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DateOfBirthday" Type="date" Nullable="false" />
+    <Property Name="ResidentialAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DriversLicense" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Protocol">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Guilty" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IncidentAmount" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DateOfPayment" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CopsId" Type="int" Nullable="false" />
+    <Property Name="OwnerId" Type="int" Nullable="false" />
+    <Property Name="CarAccidentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PTS">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="OwnerId" Type="int" Nullable="false" />
+    <Property Name="RegistrNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NumberVIN" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CarBrand" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CarModel" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="HP" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TipTS" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ColorCar" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Weight" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="YearOfIssue" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Protocol_CarAccident">
+    <End Role="CarAccident" Type="Self.CarAccident" Multiplicity="1" />
+    <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarAccident">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Protocol">
+        <PropertyRef Name="CarAccidentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Protocol_Cops">
+    <End Role="Cops" Type="Self.Cops" Multiplicity="1" />
+    <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cops">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Protocol">
+        <PropertyRef Name="CopsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Protocol_Owner">
+    <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
+    <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Protocol">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PTS_Owner">
+    <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
+    <End Role="PTS" Type="Self.PTS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PTS">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище CopsBaseModelContainer">
+    <EntitySet Name="CarAccident" EntityType="Self.CarAccident" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cops" EntityType="Self.Cops" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Protocol" EntityType="Self.Protocol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PTS" EntityType="Self.PTS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Protocol_CarAccident" Association="Self.FK_Protocol_CarAccident">
+      <End Role="CarAccident" EntitySet="CarAccident" />
+      <End Role="Protocol" EntitySet="Protocol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Protocol_Cops" Association="Self.FK_Protocol_Cops">
+      <End Role="Cops" EntitySet="Cops" />
+      <End Role="Protocol" EntitySet="Protocol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Protocol_Owner" Association="Self.FK_Protocol_Owner">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="Protocol" EntitySet="Protocol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PTS_Owner" Association="Self.FK_PTS_Owner">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="PTS" EntitySet="PTS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
